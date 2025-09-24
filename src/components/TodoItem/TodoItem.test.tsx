@@ -1,9 +1,8 @@
 import { act, fireEvent, render } from "@testing-library/react-native";
 import React from "react";
-import { TodoItem } from "./TodoItem.tsx";
+import { TodoItem } from ".";
 
 describe("TodoItem", () => {
-
 
   it("chama removeItem quando o botão de lixeira é pressionado", async () => {
     const removeMock = jest.fn();
@@ -40,4 +39,14 @@ describe("TodoItem", () => {
 
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });
+  it("aplica props corretas no texto para truncamento", () => {
+    const { getByText } = render(
+      <TodoItem title="task long" removeItem={() => {}} />
+    );
+    const text = getByText("task long");
+
+    expect(text.props.numberOfLines).toBe(1);
+    expect(text.props.ellipsizeMode).toBe("tail");
+  });
+
 });

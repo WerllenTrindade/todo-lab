@@ -1,6 +1,6 @@
 import { ListEmpty } from "@/components/ListEmpty";
 import { TodoInput } from "@/components/TodoInput";
-import { TodoItem } from "@/components/TodoItem/TodoItem.tsx";
+import { TodoItem } from "@/components/TodoItem";
 import { TodoListHeader } from "@/components/TodoListHeader";
 import { TodoModal } from "@/components/TodoModal";
 import { Todo } from "@/service/todosService";
