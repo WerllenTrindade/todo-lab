@@ -17,12 +17,11 @@ export function TodoItem({ title, removeItem, ...rest }: TodoItemProps) {
   return (
     <TouchableOpacity activeOpacity={0.7} {...rest} style={s.container}>
       <View style={s.contain}>
-        {/* <Checkbox check /> */}
         <Text numberOfLines={1} ellipsizeMode="tail" style={s.title}>
           {title}
         </Text>
       </View>
-      <TouchableOpacity onPress={removeItem}>
+      <TouchableOpacity testID="label-button" onPress={removeItem}>
         <FontAwesome name="trash-o" size={24} color={theme.colors.primary} />
       </TouchableOpacity>
     </TouchableOpacity>

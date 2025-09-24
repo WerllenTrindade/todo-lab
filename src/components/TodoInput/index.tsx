@@ -19,7 +19,7 @@ export function TodoInput({ value, onChangeText, onAdd }: Props) {
         placeholderTextColor={theme.colors.gray[400]}
         style={s.input}
       />
-      <TouchableOpacity onPress={onAdd} style={s.button}>
+      <TouchableOpacity testID="add-button" onPress={onAdd} style={s.button}>
         <Feather name="plus" size={24} color="white" />
       </TouchableOpacity>
     </View>
