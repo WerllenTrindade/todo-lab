@@ -40,6 +40,9 @@ jobs:
         with:
           node-version: 20.x
 
+      - name: Install dependencies 📦
+        run: yarn install --frozen-lockfile
+
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
