@@ -43,7 +43,7 @@ describe("TodoItem", () => {
     const { getByText } = render(
       <TodoItem title="task long" removeItem={() => {}} />
     );
-    const text = getByText("task long");
+    const text = getByText("task lonwdwqdwqdqwdqwg");
 
     expect(text.props.numberOfLines).toBe(1);
     expect(text.props.ellipsizeMode).toBe("tail");
