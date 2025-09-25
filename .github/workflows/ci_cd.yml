@@ -50,6 +50,5 @@ jobs:
           packager: yarn
           token: ${{ secrets.EAS_EXPO_TOKEN_X  }}
 
-
       - name: Build
         run: eas build --platform android --profile preview --non-interactive --no-wait --clear-cache
