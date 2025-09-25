@@ -49,4 +49,4 @@ jobs:
 
 
       - name: Build
-        run: eas build --platform android --profile preview --non-interactive --no-wait
+        run: eas build --platform android --profile preview --non-interactive --no-wait --clear-cache
