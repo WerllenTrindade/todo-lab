@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "my-list",
-    "slug": "my-list-app",
+    "slug": "my-list",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,9 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.werllen.mylist",
+      "versionCode": 3
     },
     "web": {
       "output": "static",
