@@ -1,5 +1,5 @@
-import TodoListScreen from "@/screens/TodoListScreen";
+import Home from "@/screens/Home";
 
 export default function Index() {
-  return <TodoListScreen />
+  return <Home />
 }

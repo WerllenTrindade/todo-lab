@@ -2,10 +2,14 @@
 export const colors = {
  primary: '#7A12FF',
   secondary: '#5A0ECC',
+  radio: '#BA83DE',
   white: '#FFFFFF',
   black: '#000000',
   blueGray: '#C9D1E5',
   background: '#1C1C1C',
+  darkGray: '#1E1E1E',
+  darCard: '#1F1F1F',
+  backgroundInput: '#181818',
 
   gray: {
     50: '#F2F2F2',
