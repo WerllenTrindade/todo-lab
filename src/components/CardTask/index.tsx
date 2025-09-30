@@ -1,18 +1,28 @@
 import { Radio } from "@/components/Radio";
+import { Task } from "@/database/model";
 import theme from "@/theme";
-import { TaskCardType } from "@/types/task";
+import { taskBorderColors } from "@/theme/colors";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Text, View } from "react-native";
+import { router } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 
 interface CardTaskProps {
-  data: TaskCardType;
-
+  data: Task;
+  index: number;
+  updateCompleteTask: (id: number) => void;
 }
 
-export function CardTask({ data }: CardTaskProps) {
+export function CardTask({ data, index, updateCompleteTask}: CardTaskProps) {
   return (
-    <View testID="card-task-container" style={[styles.container, { borderLeftColor: data.color }]}>
+    <TouchableOpacity 
+    onPress={() => router.navigate({
+      pathname: '/task_form',
+      params: {
+        id: data?.id
+      } 
+    })}
+    testID="card-task-container" style={[styles.container, { borderLeftColor: taskBorderColors[index] }]}>
       <View style={styles.content}>
         <Text numberOfLines={1} style={styles.title}>
           {data.title}
@@ -24,7 +34,7 @@ export function CardTask({ data }: CardTaskProps) {
         </View>
       </View>
 
-        <Radio onPress={() => null} selected={data.completed} />
-    </View>
+        <Radio onPress={() => updateCompleteTask(data?.id || 0)} selected={data.completed || false} />
+    </TouchableOpacity>
   );
 }

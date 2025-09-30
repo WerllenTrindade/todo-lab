@@ -19,6 +19,9 @@ const VALUES: [Property, ...Property[]] = [
 
 
 export const taskSchema = z.object({
+  id: z
+  .union([z.number(), z.string().transform(Number)])
+  .optional(),
   title: z.string().min(1, "Título obrigatório"),
   description: z.string().optional(),
   date: z.string().min(1, "Data obrigatória"),

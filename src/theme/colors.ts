@@ -65,3 +65,16 @@ export const colors = {
     900: '#610707',
   },
 };
+
+export const taskBorderColors = [
+  "#EBD9FF",
+  "#D4B3FF",
+  "#C191FF",
+  "#AC6EFF",
+  "#9853FF",
+  "#7A12FF",
+  "#6C0FE6",
+  "#5A0ECC",
+  "#4A0BA8",
+  "#3A0785",
+];

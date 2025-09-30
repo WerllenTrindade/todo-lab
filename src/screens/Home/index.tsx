@@ -2,23 +2,33 @@ import { CardProgress } from "@/components/CardProgress";
 import { CardTask } from "@/components/CardTask";
 import { GoogleKeep } from "@/components/GoogleKeep";
 import { Search } from "@/components/Search";
-import { tasksToday } from "@/mock";
+import { Task } from "@/database/model";
 import { ROUTERS } from "@/router";
-import { TaskCardType } from "@/types/task";
 import { router } from "expo-router";
 import { useCallback } from "react";
-import { FlatList, ScrollView, Text } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ContextHomeProvider } from "./context/ContextHome";
 import { s } from "./styles";
+import { useHome } from "./useHome";
 
 export default function Home() {
-  const renderItem = useCallback(
-    ({ item }: { item: TaskCardType }) => <CardTask data={item} />,
-    []
+  const home = useHome();
+  const { tomorrowTasks, todayTasks, updateCompleteTask } = home;
+
+  const renderItem = useCallback(({ item, index }: { item: Task, index: number }) => 
+    <CardTask updateCompleteTask={updateCompleteTask} data={item} index={index} /> ,[updateCompleteTask]
   );
 
   return (
+    
     <SafeAreaView style={s.container}>
+      <ContextHomeProvider methods={home}>
+
+      <View style={{paddingVertical: 15}}>
+        <Text style={s.titleHeader}>Você tem {todayTasks.length} tarefas{'\n'}para completar hoje</Text>
+      </View>
+
       <Search
         placeholder="Tarefa de pesquisa aqui"
         placeholderTextColor="#FFF"
@@ -29,25 +39,33 @@ export default function Home() {
         <CardProgress />
 
         <Text style={s.title}>A tarefa de hoje</Text>
+
         <FlatList
-          data={tasksToday}
+          data={todayTasks}
           renderItem={renderItem}
           keyExtractor={(item) => String(item.id)}
           scrollEnabled={false}
           contentContainerStyle={{ gap: 10 }}
         />
 
-        <Text style={s.title}>Tarefa de amanhã</Text>
-        <FlatList
-          data={tasksToday}
+        {
+          tomorrowTasks.length > 0 && 
+          <>
+          <Text style={s.title}>Tarefa de amanhã</Text>
+        <FlatList 
+          data={tomorrowTasks}
           renderItem={renderItem}
           keyExtractor={(item) => String(item.id)}
           scrollEnabled={false}
           contentContainerStyle={{ gap: 10 }}
         />
+          </>
+        }
+     
       </ScrollView>
 
       <GoogleKeep onPress={() => router.navigate(ROUTERS.TASK_FORM)} />
+    </ContextHomeProvider>
     </SafeAreaView>
   );
 }

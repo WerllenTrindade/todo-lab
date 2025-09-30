@@ -22,7 +22,7 @@ export const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 6,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   message: {
     fontFamily: theme.fonts.interLight_300,
@@ -35,5 +35,19 @@ export const s = StyleSheet.create({
     fontFamily: theme.fonts.interRegular_400,
     fontSize: 18,
     color: theme.colors.white,
+  },
+
+  // ===== Barra de progresso =====
+  progressBackground: {
+    width: "100%",
+    height: 18,
+    backgroundColor: "#BA83DE41",
+    borderRadius: 20,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: "100%",
+    backgroundColor: "#BA83DE",
+    borderRadius: 20,
   },
 });

@@ -1,4 +1,4 @@
 export enum ROUTERS {
-    HOME = '/home',
+    HOME = '/',
     TASK_FORM = '/task_form'
 }

@@ -1,17 +1,18 @@
 import theme from '@/theme';
+import { formatDate } from '@/utils/date';
 import Entypo from '@expo/vector-icons/Entypo';
 import React, { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { styles } from './styles';
 
-interface WeekPickerProps {
-  control: any; // Controller do react-hook-form
-  name: string;
+interface WeekPickerProps<T extends FieldValues> {
+ control: Control<T>;
+  name: Path<T>;
 }
 
-export function WeekPicker({ control, name }: WeekPickerProps) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+export function WeekPicker<T extends FieldValues>({ control, name }: WeekPickerProps<T>) {
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [startDate, setStartDate] = useState(getStartOfWeek(new Date()));
 
   function getStartOfWeek(date: Date) {
@@ -34,7 +35,7 @@ export function WeekPicker({ control, name }: WeekPickerProps) {
 
   const days = getWeekDays(startDate);
 
-  const renderItem = ({ item }: { item: Date }, onChange: (date: Date) => void) => {
+  const renderItem = ({ item }: { item: Date }, onChange: (date: string) => void) => {
     const isSelected = item.toDateString() === selectedDate.toDateString();
     const weekday = item.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
 
@@ -42,7 +43,7 @@ export function WeekPicker({ control, name }: WeekPickerProps) {
       <TouchableOpacity
         onPress={() => {
           setSelectedDate(item);
-          onChange(item); // atualiza o valor no form
+          onChange(formatDate(item)); 
         }}
         style={[styles.dayContainer, { borderColor: isSelected ? "#A78BFA" : "transparent" }]}
       >

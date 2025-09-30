@@ -1,4 +1,5 @@
-import { toastConfig } from '@/utils/toastConfig';
+import { db } from "@/database/database";
+import { toastConfig } from "@/utils/toastConfig";
 import {
   Inter_300Light,
   Inter_400Regular,
@@ -8,13 +9,13 @@ import {
   Inter_800ExtraBold,
   useFonts,
 } from "@expo-google-fonts/inter";
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { Slot, SplashScreen } from "expo-router";
-import { useEffect } from 'react';
-import { StatusBar } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SQLiteProvider } from "expo-sqlite";
+import { useEffect } from "react";
+import { StatusBar } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,12 +42,12 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <GestureHandlerRootView style={{flex: 1, backgroundColor: '#020206'}}>
-      <BottomSheetModalProvider>
-        <StatusBar barStyle={'light-content'} />
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0a0a0a" }}>
+      <SQLiteProvider databaseName="tasks.db" onInit={db}>
+        <StatusBar barStyle={"light-content"} />
         <Slot />
-        <Toast config={toastConfig} visibilityTime={1500}/>
-      </BottomSheetModalProvider>
+        <Toast config={toastConfig} visibilityTime={1500} />
+      </SQLiteProvider>
     </GestureHandlerRootView>
   );
 }

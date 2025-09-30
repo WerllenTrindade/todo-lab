@@ -7,6 +7,12 @@ export const s = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 10,
   },
+  titleHeader: {
+    color: theme.colors.white, 
+    fontFamily: theme.fonts.interSemiBold_600, 
+    fontSize: 25, 
+    letterSpacing: 0.5
+  },
   title: {
     fontFamily: theme.fonts. interRegular_400,
     fontSize: 22,

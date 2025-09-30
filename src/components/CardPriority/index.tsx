@@ -22,8 +22,6 @@ export function CardPriority<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { value, onChange } }) => {
-        console.log("value ", value);
-        console.log(" data.value ", data.value);
 
         const selected = value === data.value;
 

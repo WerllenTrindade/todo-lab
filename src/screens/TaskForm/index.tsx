@@ -1,7 +1,6 @@
-// TaskForm.tsx
-import { Button } from "@/components/Button";
 import { CardPriority } from "@/components/CardPriority";
 import { CustomSwitch } from "@/components/CustomSwitch";
+import { HeaderCreateTask } from "@/components/HeaderCreateTask";
 import { InputForm } from "@/components/Inputs/InputForm";
 import { TimeInput } from "@/components/TimePicker";
 import { WeekPicker } from "@/components/WeekPicker";
@@ -10,11 +9,16 @@ import React from "react";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { TaskActions } from "./components/footer/ButtonEdith";
 import { s } from "./styles";
 import { useTaskForm } from "./useTaskForm";
 
-export function TaskForm() {
-  const { control, handleSubmit, onSubmit, onValues } = useTaskForm();
+interface TaskFormProps {
+  id: number
+}
+
+export function TaskForm({id}: TaskFormProps) {
+  const { control, onRemove, handleSubmit, onSubmit, isSubmitting, loading, watch } = useTaskForm({id});
 
 
 
@@ -25,6 +29,8 @@ export function TaskForm() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={20}
       >
+        <HeaderCreateTask/>
+
         <KeyboardAwareScrollView
           contentContainerStyle={s.scrollContainer}
           extraScrollHeight={50}
@@ -85,13 +91,12 @@ export function TaskForm() {
           </View>
         </KeyboardAwareScrollView>
 
-        <View style={s.footer}>
-          <Button
-            description="Criar Task"
-           onPress={() => handleSubmit(onSubmit)()}
-          />
-
-        </View>
+       <TaskActions handleSubmit={handleSubmit}
+  taskId={id}
+  isLoading={isSubmitting || loading}
+  onSubmit={onSubmit}   // passa só o handler
+  onRemove={onRemove}
+/>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
