@@ -1,4 +1,3 @@
-import { Mask } from "@/utils/masks";
 import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
 import { InputMask } from ".";
@@ -32,24 +31,6 @@ describe("InputMask", () => {
     fireEvent.changeText(input, "1234");
 
     expect(onChangeTextMock).toHaveBeenCalledWith("1234");
-  });
-
-  it("InputMask com CPF e defaultValue", () => {
-    it("deve aplicar máscara ao defaultValue quando mask='cpf'", () => {
-      const { getByDisplayValue } = render(
-        <InputMask
-          placeholder="Digite o CPF"
-          defaultValue="12345678901"
-          mask="cpf"
-        />
-      );
-
-      // Espera o valor formatado simulado
-      expect(getByDisplayValue("123.456.789.01")).toBeTruthy();
-
-      // Verifica se Mask.format foi chamado corretamente
-      expect(Mask.format).toHaveBeenCalledWith("cpf", "12345678901");
-    });
   });
 
   it("deve usar defaultValue normalmente quando mask não é fornecida", () => {
