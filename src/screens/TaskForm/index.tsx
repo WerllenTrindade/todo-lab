@@ -94,7 +94,7 @@ export function TaskForm({id}: TaskFormProps) {
        <TaskActions handleSubmit={handleSubmit}
   taskId={id}
   isLoading={isSubmitting || loading}
-  onSubmit={onSubmit}   // passa só o handler
+  onSubmit={onSubmit}
   onRemove={onRemove}
 />
       </KeyboardAvoidingView>

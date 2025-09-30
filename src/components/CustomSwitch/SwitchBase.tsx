@@ -34,6 +34,7 @@ export const SwitchBase = ({
 
   return (
     <Pressable
+     testID="switch-base-button"
       style={[s.container, disabled && { opacity: 0.5 }]}
       onPress={() => !disabled && onChange(!value)}
     >

@@ -18,18 +18,27 @@ interface Props extends TouchableOpacityProps {
 export const Checkbox = ({ label, type = ICON_CHECKBOX.SINGLE ,check, ...rest }: Props) => {
     return (
         <View style={s.container}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={[s.button, check && { borderColor: theme.colors.green[600], backgroundColor: theme.colors.green[600] }]}
-          {...rest}
-        >
-          {check && 
-            type === ICON_CHECKBOX.SINGLE ?
-            <Feather name="check" size={15} color="#FFF" />
-            :
-            <Feather name="minus" size={15} color="#FFF" />
-          }
-        </TouchableOpacity>
+       <TouchableOpacity
+  testID="checkbox-button"
+  activeOpacity={0.7}
+  style={[
+    s.button,
+    check && { borderColor: theme.colors.green[600], backgroundColor: theme.colors.green[600] }
+  ]}
+  {...rest}
+>
+  {check &&
+    (type === ICON_CHECKBOX.SINGLE ? (
+      <View testID="icon-check">
+        <Feather name="check" size={15} color="#FFF" />
+      </View>
+    ) : (
+      <View testID="icon-minus">
+        <Feather name="minus" size={15} color="#FFF" />
+      </View>
+    ))}
+</TouchableOpacity>
+
         <Text style={s.text}>{label}</Text>
       </View>
     )

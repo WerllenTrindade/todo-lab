@@ -122,8 +122,10 @@ export function useTasksDatabase() {
       priority,
       alert,
       completed,
+      id
     } = data;
 
+    console.log('data , ', data)
     let statement;
     try {
       statement = await database.prepareAsync(`
@@ -141,6 +143,7 @@ export function useTasksDatabase() {
     `);
 
       await statement.executeAsync({
+        $id: id!,
         $title: title,
         $description: description || "",
         $date: date,

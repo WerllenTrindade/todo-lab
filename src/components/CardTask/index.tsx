@@ -34,7 +34,7 @@ export function CardTask({ data, index, updateCompleteTask}: CardTaskProps) {
         </View>
       </View>
 
-        <Radio onPress={() => updateCompleteTask(data?.id || 0)} selected={data.completed || false} />
+        <Radio testID="radio-button" onPress={() => updateCompleteTask(data?.id || 0)} selected={data.completed || false} />
     </TouchableOpacity>
   );
 }

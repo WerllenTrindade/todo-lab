@@ -6,7 +6,11 @@ import { s } from './styles';
 export function HeaderCreateTask() {
   return (
     <View style={s.container}>
-      <TouchableOpacity onPress={() => router.back()} style={s.icon}>
+      <TouchableOpacity
+        testID="back-button"
+        onPress={() => router.back()}
+        style={s.icon}
+      >
         <Feather name="arrow-left-circle" size={24} color="white" />
       </TouchableOpacity>
 

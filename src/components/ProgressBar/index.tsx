@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
+import { s } from "./styles";
 
 interface ProgressBarProps extends ViewProps{
-  progress: number; // valor entre 0 e 1 (0% a 100%)
+  progress: number;
   height?: number;
   backgroundColor?: string;
   fillColor?: string;
@@ -16,20 +17,12 @@ export function ProgressBar({
   ...rest
 }: ProgressBarProps) {
   return (
-    <View {...rest} style={[styles.container, { height, backgroundColor }]}>
-      <View style={[styles.fill, { width: `${progress * 100}%`, backgroundColor: fillColor }]} />
+ <View {...rest} testID={rest.testID} style={[s.container, { height, backgroundColor }]}>
+      <View
+        testID="progress-bar-fill"
+        style={[s.fill, { width: `${progress * 100}%`, backgroundColor: fillColor }]}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    borderRadius: 20,
-    overflow: "hidden",
-  },
-  fill: {
-    height: "100%",
-    borderRadius: 50,
-  },
-});

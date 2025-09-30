@@ -1,7 +1,7 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
-    TouchableOpacity,
-    TouchableOpacityProps
+  TouchableOpacity,
+  TouchableOpacityProps
 } from "react-native";
 import { s } from "./styles";
 
@@ -10,6 +10,7 @@ type GoogleKeepProps = TouchableOpacityProps & {};
 export function GoogleKeep({ style, ...rest }: GoogleKeepProps) {
   return (
     <TouchableOpacity
+     testID="google-keep-button"
       activeOpacity={0.7}
       style={[
         s.container,
@@ -23,7 +24,7 @@ export function GoogleKeep({ style, ...rest }: GoogleKeepProps) {
       ]}
       {...rest}
     >
-      <AntDesign name="plus" size={24} color={"#292D32"} />
+      <AntDesign testID="google-keep-icon" name="plus" size={24} color={"#292D32"} />
     </TouchableOpacity>
   );
 }

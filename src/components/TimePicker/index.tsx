@@ -53,10 +53,11 @@ function TimeInputInner<T extends FieldValues>(
 
             {show && (
               <DateTimePicker
-                value={currentTime}
-                mode="time"
-                display="spinner"
-                onChange={handleChange}
+              testID="RNDateTimePicker"
+              value={currentTime}
+              mode="time"
+              display="spinner"
+              onChange={handleChange}
               />
             )}
           </View>
