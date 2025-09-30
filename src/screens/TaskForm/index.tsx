@@ -19,9 +19,7 @@ interface TaskFormProps {
 
 export function TaskForm({id}: TaskFormProps) {
   const { control, onRemove, handleSubmit, onSubmit, isSubmitting, loading, watch } = useTaskForm({id});
-
-
-
+ 
   return (
     <SafeAreaView style={s.container}>
       <KeyboardAvoidingView

@@ -4,21 +4,14 @@ import { useForm } from "react-hook-form";
 import { TimeInput } from ".";
 import { useTimePicker } from "./useTimePicker";
 
-// Mock do hook useTimePicker
-jest.mock("./useTimePicker", () => ({
-  useTimePicker: () => ({
-    parseTime: jest.fn(() => new Date("2025-09-30T12:00:00")),
-  }),
-}));
-
+jest.mock("./useTimePicker");
 
 describe("TimeInput", () => {
   const mockParseTime = jest.fn(() => new Date("2025-09-30T12:00:00"));
+  const mockedUseTimePicker = useTimePicker as jest.Mock; // agora funciona porque jest.mock já mockou o módulo
 
   beforeEach(() => {
-    (useTimePicker as jest.Mock).mockReturnValue({
-      parseTime: mockParseTime,
-    });
+    mockedUseTimePicker.mockReturnValue({ parseTime: mockParseTime });
   });
 
   function Wrapper() {
@@ -26,18 +19,15 @@ describe("TimeInput", () => {
     return <TimeInput control={control} name="time" title="Hora" />;
   }
 
-  it("deve renderizar título e hora inicial", () => {
+  it("renderiza título e hora inicial", () => {
     const { getByText } = render(<Wrapper />);
     expect(getByText("Hora")).toBeTruthy();
     expect(getByText("12:00")).toBeTruthy();
   });
 
-it("deve abrir o picker ao pressionar o input", () => {
-  const { getByText, queryByTestId } = render(<Wrapper />);
-  const input = getByText("12:00");
-  fireEvent.press(input);
-
-  expect(queryByTestId("RNDateTimePicker")).toBeTruthy();
-});
-
+  it("abre o picker ao pressionar o input", () => {
+    const { getByText, queryByTestId } = render(<Wrapper />);
+    fireEvent.press(getByText("12:00"));
+    expect(queryByTestId("RNDateTimePicker")).toBeTruthy();
+  });
 });
