@@ -50,7 +50,7 @@ export function useHome() {
         });
       }
     },
-    [updateCompleteTask]
+    [updateCompleteTask, loadTasks]
   );
 
   return {
