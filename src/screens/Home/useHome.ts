@@ -4,19 +4,23 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
 
 export function useHome() {
-  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask } = useTaskService();
+  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask, allTasks } = useTaskService();
   const [todayTasks, setTodayTasks] = useState<Task[]>([]);
   const [tomorrowTasks, setTomorrowTasks] = useState<Task[]>([]);
 
   useFocusEffect(
     useCallback(() => {
       loadTasks();
-    }, [fetchTodayTasks, fetchTomorrowTasks])
+    }, [])
   );
+
+  
 
   async function loadTasks() {
     const today = await fetchTodayTasks();
     const tomorrow = await fetchTomorrowTasks();
+
+    console.log('allTasks ', await allTasks())
 
     setTodayTasks(today);
     setTomorrowTasks(tomorrow);

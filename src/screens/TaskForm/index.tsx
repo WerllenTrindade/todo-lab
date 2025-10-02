@@ -90,11 +90,11 @@ export function TaskForm({id}: TaskFormProps) {
         </KeyboardAwareScrollView>
 
        <TaskActions handleSubmit={handleSubmit}
-  taskId={id}
-  isLoading={isSubmitting || loading}
-  onSubmit={onSubmit}
-  onRemove={onRemove}
-/>
+          taskId={id}
+          isLoading={isSubmitting || loading}
+          onSubmit={onSubmit}
+          onRemove={onRemove}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

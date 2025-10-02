@@ -1,8 +1,8 @@
 import { PRIORITY } from "@/constants/priority";
 import { ROUTERS } from "@/router";
 import { useTaskService } from "@/service/taskService";
-import { getCurrentTime, getDate } from "@/utils/date";
 import { zodResolver } from "@hookform/resolvers/zod";
+import dayjs from "dayjs";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Resolver, useForm } from "react-hook-form";
@@ -25,11 +25,11 @@ export function useTaskForm({ id }: useTaskFormProps) {
     defaultValues: {
       id: undefined,
       alert: false,
-      date: getDate(),
+      date:  dayjs().toISOString(),
       description: "",
-      endTime: getCurrentTime(),
+      endTime: dayjs().add(1, "hour").format("HH:mm"),
       priority: PRIORITY.BAIXA,
-      startTime: getCurrentTime(),
+      startTime: dayjs().format("HH:mm"),
       title: "",
     },
   });

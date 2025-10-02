@@ -11,10 +11,12 @@ export function useTaskService() {
     getTomorrowTasks,
     toggleCompleteTask,
     getTasksDetails,
+    getAllTasks
   } = useTasksDatabase();
 
   const addTask = useCallback(
     async (task: Omit<Task, "id">): Promise<boolean> => {
+
       if (!task.title) return false;
       return await create(task);
     },
@@ -24,7 +26,6 @@ export function useTaskService() {
   const editTask = useCallback(
     async (task: Task): Promise<boolean> => {
       if (!task.id || !task.title) return false;
-      console.log(task)
       return await updateTask(task);
     },
     [updateTask]
@@ -59,12 +60,17 @@ export function useTaskService() {
     [removeTask]
   );
 
+  const allTasks = useCallback(async (): Promise<Task[]> => {
+    return await getAllTasks();
+  }, [getAllTasks]);
+
   return {
     addTask,
     deleteTask,
     fetchTodayTasks,
     fetchTomorrowTasks,
     editTask,
+    allTasks,
     updateCompleteTask,
     fetchTaskDetails,
   };

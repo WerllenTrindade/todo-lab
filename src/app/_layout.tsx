@@ -9,6 +9,8 @@ import {
   Inter_800ExtraBold,
   useFonts,
 } from "@expo-google-fonts/inter";
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 import { Slot, SplashScreen } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect } from "react";
@@ -17,8 +19,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
-SplashScreen.preventAutoHideAsync();
+dayjs.locale("pt-br");
 
+SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     Inter_300Light,

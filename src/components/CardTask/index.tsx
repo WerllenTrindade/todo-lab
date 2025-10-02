@@ -3,6 +3,7 @@ import { Task } from "@/database/model";
 import theme from "@/theme";
 import { taskBorderColors } from "@/theme/colors";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import dayjs from "dayjs";
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
@@ -30,7 +31,7 @@ export function CardTask({ data, index, updateCompleteTask}: CardTaskProps) {
 
         <View style={styles.dateWrapper}>
           <FontAwesome name="calendar" size={15} color={theme.colors.white + 80} />
-          <Text style={styles.date}>{data.date}</Text>
+          <Text style={styles.date}>{dayjs(data.date).format("DD/MM/YYYY")} {data.startTime} - {data.endTime}</Text>
         </View>
       </View>
 

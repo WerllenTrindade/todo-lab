@@ -1,4 +1,4 @@
-import { formatDate } from "@/utils/date";
+import dayjs from "dayjs";
 import { useSQLiteContext } from "expo-sqlite";
 import { Task } from "./model";
 
@@ -39,18 +39,19 @@ export function useTasksDatabase() {
   }
 
   async function getTodayTasks(): Promise<Task[]> {
-    const today = formatDate(new Date());
-    const query = "SELECT * FROM tasks WHERE date = ?";
-    return await database.getAllAsync<Task>(query, [today]);
+    const today = dayjs().format("YYYY-MM-DD");
+    const query = "SELECT * FROM tasks WHERE date LIKE ?";
+    return await database.getAllAsync<Task>(query, [`${today}%`]);
   }
 
   async function getTomorrowTasks(): Promise<Task[]> {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowStr = formatDate(tomorrow);
-
-    const query = "SELECT * FROM tasks WHERE date = ?";
-    return await database.getAllAsync<Task>(query, [tomorrowStr]);
+    const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
+    const query = "SELECT * FROM tasks WHERE date LIKE ?";
+    return await database.getAllAsync<Task>(query, [`${tomorrow}%`]);
+  }
+  async function getAllTasks(): Promise<Task[]> {
+    const query = "SELECT * FROM tasks";
+    return await database.getAllAsync<Task>(query);
   }
 
   async function toggleCompleteTask(id: number): Promise<boolean> {
@@ -122,10 +123,10 @@ export function useTasksDatabase() {
       priority,
       alert,
       completed,
-      id
+      id,
     } = data;
 
-    console.log('data , ', data)
+    console.log("data , ", data);
     let statement;
     try {
       statement = await database.prepareAsync(`
@@ -165,6 +166,7 @@ export function useTasksDatabase() {
 
   return {
     create,
+    getAllTasks,
     getTodayTasks,
     getTomorrowTasks,
     toggleCompleteTask,

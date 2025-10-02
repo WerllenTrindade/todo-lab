@@ -20,6 +20,7 @@ export default function Home() {
     <CardTask updateCompleteTask={updateCompleteTask} data={item} index={index} /> ,[updateCompleteTask]
   );
 
+
   return (
     
     <SafeAreaView style={s.container}>
