@@ -14,59 +14,63 @@ import { useHome } from "./useHome";
 
 export default function Home() {
   const home = useHome();
-  const { tomorrowTasks, todayTasks, updateCompleteTask } = home;
+  const { tomorrowTasks, todayTasks, toggleCompleteTask } = home;
 
-  const renderItem = useCallback(({ item, index }: { item: Task, index: number }) => 
-    <CardTask updateCompleteTask={updateCompleteTask} data={item} index={index} /> ,[updateCompleteTask]
+  const renderItem = useCallback(
+    ({ item, index }: { item: Task; index: number }) => (
+      <CardTask
+        updateCompleteTask={toggleCompleteTask}
+        data={item}
+        index={index}
+      />
+    ),
+    [toggleCompleteTask]
   );
 
-
   return (
-    
     <SafeAreaView style={s.container}>
       <ContextHomeProvider methods={home}>
+        <View style={{ paddingVertical: 15 }}>
+          <Text style={s.titleHeader}>
+            Você tem {todayTasks.length} tarefas{"\n"}para completar hoje
+          </Text>
+        </View>
 
-      <View style={{paddingVertical: 15}}>
-        <Text style={s.titleHeader}>Você tem {todayTasks.length} tarefas{'\n'}para completar hoje</Text>
-      </View>
-
-      <Search
-        placeholder="Tarefa de pesquisa aqui"
-        placeholderTextColor="#FFF"
-      />
-
-      <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
-        <Text style={s.title}>Progresso</Text>
-        <CardProgress />
-
-        <Text style={s.title}>A tarefa de hoje</Text>
-
-        <FlatList
-          data={todayTasks}
-          renderItem={renderItem}
-          keyExtractor={(item) => String(item.id)}
-          scrollEnabled={false}
-          contentContainerStyle={{ gap: 10 }}
+        <Search
+          placeholder="Tarefa de pesquisa aqui"
+          placeholderTextColor="#FFF"
         />
 
-        {
-          tomorrowTasks.length > 0 && 
-          <>
-          <Text style={s.title}>Tarefa de amanhã</Text>
-        <FlatList 
-          data={tomorrowTasks}
-          renderItem={renderItem}
-          keyExtractor={(item) => String(item.id)}
-          scrollEnabled={false}
-          contentContainerStyle={{ gap: 10 }}
-        />
-          </>
-        }
-     
-      </ScrollView>
+        <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
+          <Text style={s.title}>Progresso</Text>
+          <CardProgress />
 
-      <GoogleKeep onPress={() => router.navigate(ROUTERS.TASK_FORM)} />
-    </ContextHomeProvider>
+          <Text style={s.title}>A tarefa de hoje</Text>
+
+          <FlatList
+            data={todayTasks}
+            renderItem={renderItem}
+            keyExtractor={(item) => String(item.id)}
+            scrollEnabled={false}
+            contentContainerStyle={{ gap: 10 }}
+          />
+
+          {tomorrowTasks.length > 0 && (
+            <>
+              <Text style={s.title}>Tarefa de amanhã</Text>
+              <FlatList
+                data={tomorrowTasks}
+                renderItem={renderItem}
+                keyExtractor={(item) => String(item.id)}
+                scrollEnabled={false}
+                contentContainerStyle={{ gap: 10 }}
+              />
+            </>
+          )}
+        </ScrollView>
+
+        <GoogleKeep onPress={() => router.navigate(ROUTERS.TASK_FORM)} />
+      </ContextHomeProvider>
     </SafeAreaView>
   );
 }

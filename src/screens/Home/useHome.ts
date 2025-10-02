@@ -2,9 +2,11 @@ import { Task } from "@/database/model";
 import { useTaskService } from "@/service/taskService";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
+import Toast from "react-native-toast-message";
 
 export function useHome() {
-  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask, allTasks } = useTaskService();
+  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask } =
+    useTaskService();
   const [todayTasks, setTodayTasks] = useState<Task[]>([]);
   const [tomorrowTasks, setTomorrowTasks] = useState<Task[]>([]);
 
@@ -14,13 +16,9 @@ export function useHome() {
     }, [])
   );
 
-  
-
   async function loadTasks() {
     const today = await fetchTodayTasks();
     const tomorrow = await fetchTomorrowTasks();
-
-    console.log('allTasks ', await allTasks())
 
     setTodayTasks(today);
     setTomorrowTasks(tomorrow);
@@ -33,10 +31,27 @@ export function useHome() {
   );
 
   const progress = useMemo(() => {
-  if (todayTasks.length === 0) return 0;
+    if (todayTasks.length === 0) return 0;
 
-  return completedTasksCount / todayTasks.length;
-}, [completedTasksCount, todayTasks]);
+    return completedTasksCount / todayTasks.length;
+  }, [completedTasksCount, todayTasks]);
+
+  const toggleCompleteTask = useCallback(
+    async (id: number) => {
+      const completed = await updateCompleteTask(id);
+
+      if (completed) {
+        loadTasks();
+
+        Toast.show({
+          type: "success",
+          text1: "Tarefa atualizada com sucesso",
+          position: "bottom",
+        });
+      }
+    },
+    [updateCompleteTask]
+  );
 
   return {
     tomorrowTasks,
@@ -44,6 +59,6 @@ export function useHome() {
     todayTasksCount,
     completedTasksCount,
     progress,
-    updateCompleteTask
+    toggleCompleteTask,
   };
 }
