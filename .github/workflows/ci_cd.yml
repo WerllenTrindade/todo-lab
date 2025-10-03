@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: CI
     env:
-      EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
     steps:
       - name: Checkout repository
