@@ -25,7 +25,7 @@ export function CardTask({ data, index, updateCompleteTask}: CardTaskProps) {
     })}
     testID="card-task-container" style={[styles.container, { borderLeftColor: taskBorderColors[index] }]}>
       <View style={styles.content}>
-        <Text numberOfLines={1} style={styles.title}>
+        <Text numberOfLines={2} style={styles.title}>
           {data.title}
         </Text>
 

@@ -18,7 +18,7 @@ export const s = StyleSheet.create({
     fontSize: 22,
     letterSpacing: 0.5  ,
     color: theme.colors.white,
-    marginBottom: 20,
-    marginTop: 30
+    marginBottom: 10,
+    marginTop: 20
   }
 });
