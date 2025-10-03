@@ -26,12 +26,12 @@ jobs:
         run: yarn test:ci
 
   CD: 
-      name: Continuous Delivery
-      runs-on: ubuntu-latest
+    name: Continuous Delivery
+    runs-on: ubuntu-latest
 
-      needs: CI
+    needs: CI
 
-      steps:
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -43,4 +43,11 @@ jobs:
       - name: Install dependencies 📦
         run: yarn install --frozen-lockfile
 
-  
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Authenticate EAS
+        run: eas login --token ${{ secrets.EAS_TOKEN }}
+
+      - name: Build Android AAB via EAS 🚀
+        run: eas build --platform android --profile production --non-interactive
