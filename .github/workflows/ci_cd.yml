@@ -28,8 +28,9 @@ jobs:
   CD: 
     name: Continuous Delivery
     runs-on: ubuntu-latest
-
     needs: CI
+    env:
+      EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -45,9 +46,6 @@ jobs:
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
-
-      - name: Authenticate EAS
-        run: eas login --token ${{ secrets.EAS_TOKEN }}
 
       - name: Build Android AAB via EAS 🚀
         run: eas build --platform android --profile production --non-interactive
