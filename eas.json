@@ -8,17 +8,26 @@
       "distribution": "internal",
       "autoIncrement": true,
       "android": {
+        "autoIncrement": "versionCode",
         "buildType": "apk"
       }
     },
     "production": {
       "distribution": "store",
+      "autoIncrement": true,
       "android": {
+        "autoIncrement": "versionCode",
         "buildType": "app-bundle"
       }
     }
   },
   "submit": {
-    "production": {}
+    "preview": {
+      "android": {
+        "track": "internal",
+        "serviceAccountKeyPath": "./google-services.json",
+        "releaseStatus": "draft"
+      }
+    }
   }
 }
