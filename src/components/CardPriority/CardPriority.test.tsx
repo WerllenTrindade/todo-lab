@@ -1,4 +1,4 @@
-import { PRIORITYS } from "@/constants/priority";
+import { PRIORITYS } from "@/constants/priorities";
 import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
