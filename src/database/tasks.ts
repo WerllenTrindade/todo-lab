@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import { useSQLiteContext } from "expo-sqlite";
-import { Task } from "./model";
+import { CreateTask, Task } from "./model";
 
 export function useTasksDatabase() {
   const database = useSQLiteContext();
 
-  async function create(data: Omit<Task, "id">): Promise<boolean> {
+  async function create(data: Omit<Task, "id">): Promise<CreateTask> {
     const { title, description, date, startTime, endTime, priority, alert } =
       data;
 
@@ -18,7 +18,7 @@ export function useTasksDatabase() {
           ($title, $description, $date, $startTime, $endTime, $priority, $alert, $completed)
       `);
 
-      await statement.executeAsync({
+      const result = await statement.executeAsync({
         $title: title,
         $description: description || "",
         $date: date,
@@ -29,10 +29,9 @@ export function useTasksDatabase() {
         $completed: 0,
       });
 
-      return true;
+      return { insertedId: result?.lastInsertRowId.toLocaleString()}
     } catch (error) {
-      console.error("Erro ao criar task:", error);
-      return false;
+      throw error;
     } finally {
       if (statement) await statement.finalizeAsync();
     }
@@ -49,6 +48,7 @@ export function useTasksDatabase() {
     const query = "SELECT * FROM tasks WHERE date LIKE ?";
     return await database.getAllAsync<Task>(query, [`${tomorrow}%`]);
   }
+
   async function getAllTasks(): Promise<Task[]> {
     const query = "SELECT * FROM tasks";
     return await database.getAllAsync<Task>(query);
@@ -113,7 +113,7 @@ export function useTasksDatabase() {
     }
   }
 
-  async function updateTask(data: Task): Promise<boolean> {
+  async function updateTask(data: Task): Promise<CreateTask> {
     const {
       title,
       description,
@@ -126,7 +126,6 @@ export function useTasksDatabase() {
       id,
     } = data;
 
-    console.log("data , ", data);
     let statement;
     try {
       statement = await database.prepareAsync(`
@@ -154,15 +153,40 @@ export function useTasksDatabase() {
         $alert: alert ? 1 : 0,
         $completed: completed ? 1 : 0,
       });
+      
+     return { insertedId: id!.toString() }
+    } catch (error) {
+      console.error("Erro ao atualizar task:", error);
+      throw error;
+    } finally {
+      if (statement) await statement.finalizeAsync();
+    }
+  }
+
+    async function updateTaskNotificationId(id: number, notificationId: string[]): Promise<boolean> {
+    let statement;
+    try {
+      statement = await database.prepareAsync(`
+        UPDATE tasks
+        SET notificationId = $notificationId
+        WHERE id = $id
+      `);
+
+      await statement.executeAsync({
+        $id: id,
+        $notificationId: JSON.stringify(notificationId),
+      });
 
       return true;
     } catch (error) {
-      console.error("Erro ao atualizar task:", error);
+      console.error("Erro ao atualizar notificationId da task:", error);
       return false;
     } finally {
       if (statement) await statement.finalizeAsync();
     }
   }
+
+
 
   return {
     create,
@@ -173,5 +197,6 @@ export function useTasksDatabase() {
     getTasksDetails,
     removeTask,
     updateTask,
+    updateTaskNotificationId
   };
 }

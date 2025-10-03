@@ -1,41 +1,29 @@
-import { PRIORITY } from "@/constants/priority";
+import { PRIORITY_VALUES } from "@/constants/priorities";
+import { isToday, nowInMinutes, timeToMinutes } from "@/utils/time";
 import { z } from "zod";
 
-
-export const PRIORITYS = [
-  { label: "Baixa", value: PRIORITY.BAIXA },
-  { label: "Média", value: PRIORITY.MEDIA },
-  { label: "Alta", value: PRIORITY.ALTA },
-];
-
-
-
-type Property = typeof PRIORITYS[number]["value"];
-
-const VALUES: [Property, ...Property[]] = [
-  PRIORITYS[0].value,
-  ...PRIORITYS.slice(1).map((p) => p.value)
-];
-
-
 export const taskSchema = z.object({
-  id: z
-  .union([z.number(), z.string().transform(Number)])
-  .optional(),
+  id: z.union([z.number(), z.string().transform(Number)]).optional(),
   title: z.string().min(1, "Título obrigatório"),
   description: z.string().optional(),
   date: z.string().min(1, "Data obrigatória"),
   startTime: z.string().min(1, "Hora de início obrigatória"),
   endTime: z.string().min(1, "Hora de término obrigatória"),
-  priority: z.enum(VALUES),
+  priority: z.enum(PRIORITY_VALUES),
   alert: z.boolean(),
-}).refine((data) => {
-  const [sh, sm] = data.startTime.split(":").map(Number);
-  const [eh, em] = data.endTime.split(":").map(Number);
-  const startMinutes = sh * 60 + sm;
-  const endMinutes = eh * 60 + em;
-  return endMinutes > startMinutes;
+})
+.refine((data) => {
+  if (!data.startTime || !data.endTime) return true;
+  return timeToMinutes(data.endTime) > timeToMinutes(data.startTime);
 }, {
-  message: "O horário de término deve ser maior que o de início",
+  message: "Hora final deve ser maior que a inicial",
+  path: ["endTime"],
+})
+.refine((data) => {
+  if (!data.date || !data.endTime) return true;
+  if (!isToday(data.date)) return true;
+  return timeToMinutes(data.endTime) >= nowInMinutes();
+}, {
+  message: "Hora final não pode ser menor que a hora atual",
   path: ["endTime"],
 });

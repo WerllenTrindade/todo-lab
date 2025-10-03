@@ -11,3 +11,8 @@ export interface Task {
   alert: boolean;
   completed?: boolean;
 }
+
+
+export interface CreateTask {
+  insertedId?: string | undefined;
+}

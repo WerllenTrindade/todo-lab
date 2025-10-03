@@ -28,7 +28,7 @@ export const s = StyleSheet.create({
   },
   timeRow: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "baseline",
     gap: 11,
   },
   timeInput: {

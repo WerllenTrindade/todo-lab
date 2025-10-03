@@ -1,4 +1,4 @@
-import { PRIORITY } from "@/constants/priority";
+import { PRIORITY } from "@/constants/priorities";
 import { ROUTERS } from "@/router";
 import { useTaskService } from "@/service/taskService";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,7 +43,6 @@ export function useTaskForm({ id }: useTaskFormProps) {
     formState: { errors, isSubmitting },
   } = form;
 
-  console.log('errors ', errors)
 
   useFocusEffect(
     useCallback(() => {
@@ -60,7 +59,7 @@ export function useTaskForm({ id }: useTaskFormProps) {
                 startTime: task.startTime,
                 endTime: task.endTime,
                 priority: task.priority as PRIORITY,
-                alert: task.alert || false,
+                alert: task.alert ? true : false,
               });
             }
           })
@@ -75,7 +74,7 @@ export function useTaskForm({ id }: useTaskFormProps) {
       let success: boolean;
 
       if (id) {
-        console.log('edit')
+        
         success = await editTask(data);
       } else {
         success = await addTask(data);
@@ -136,6 +135,7 @@ export function useTaskForm({ id }: useTaskFormProps) {
       Alert.alert("Erro", "Algo deu errado ao excluir a task");
     }
   };
+
 
   return {
     control,

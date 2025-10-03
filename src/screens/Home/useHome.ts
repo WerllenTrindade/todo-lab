@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
 
 export function useHome() {
-  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask } =
+  const { fetchTodayTasks, fetchTomorrowTasks, updateCompleteTask, allTasks } =
     useTaskService();
   const [todayTasks, setTodayTasks] = useState<Task[]>([]);
   const [tomorrowTasks, setTomorrowTasks] = useState<Task[]>([]);
@@ -23,6 +23,7 @@ export function useHome() {
     setTodayTasks(today);
     setTomorrowTasks(tomorrow);
   }
+
 
   const todayTasksCount = useMemo(() => todayTasks?.length, [todayTasks]);
   const completedTasksCount = useMemo(

@@ -25,7 +25,7 @@ function TimeInputInner<T extends FieldValues>(
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange } }) => {
+      render={({ field: { value, onChange }, fieldState: { error } }) => {
 
      const currentTime = parseTime(value);
 
@@ -59,6 +59,12 @@ function TimeInputInner<T extends FieldValues>(
               display="spinner"
               onChange={handleChange}
               />
+            )}
+
+               {error && (
+              <Text style={{ color: "red", marginTop: 4, fontSize: 12 }}>
+                {error.message}
+              </Text>
             )}
           </View>
         );

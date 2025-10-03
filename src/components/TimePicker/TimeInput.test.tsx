@@ -8,7 +8,7 @@ jest.mock("./useTimePicker");
 
 describe("TimeInput", () => {
   const mockParseTime = jest.fn(() => new Date("2025-09-30T12:00:00"));
-  const mockedUseTimePicker = useTimePicker as jest.Mock; // agora funciona porque jest.mock já mockou o módulo
+  const mockedUseTimePicker = useTimePicker as jest.Mock;
 
   beforeEach(() => {
     mockedUseTimePicker.mockReturnValue({ parseTime: mockParseTime });

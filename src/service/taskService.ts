@@ -1,77 +1,57 @@
 import { Task } from "@/database/model";
 import { useTasksDatabase } from "@/database/tasks";
+import dayjs from "dayjs";
 import { useCallback } from "react";
+import { scheduleTaskNotifications } from "./notificationsService";
 
 export function useTaskService() {
-  const {
-    create,
-    getTodayTasks,
-    updateTask,
-    removeTask,
-    getTomorrowTasks,
-    toggleCompleteTask,
-    getTasksDetails,
-    getAllTasks
-  } = useTasksDatabase();
+  const db = useTasksDatabase();
+
+  const handleNotifications = useCallback(
+    async (task: Task | Omit<Task, "id" | "notificationId">, id: number) => {
+      if (!task.alert) return;
+      await scheduleTaskNotifications(
+        { ...task, id, date: dayjs(task.date).toDate() },
+        db.updateTaskNotificationId
+      );
+    },
+    [db.updateTaskNotificationId]
+  );
 
   const addTask = useCallback(
-    async (task: Omit<Task, "id">): Promise<boolean> => {
-
+    async (task: Omit<Task, "id" | "notificationId">) => {
       if (!task.title) return false;
-      return await create(task);
+
+      const { insertedId } = await db.create(task);
+      if (!insertedId) return false;
+
+      await handleNotifications(task, Number(insertedId));
+      return true;
     },
-    [create]
+    [db.create, handleNotifications]
   );
 
   const editTask = useCallback(
-    async (task: Task): Promise<boolean> => {
+    async (task: Task) => {
       if (!task.id || !task.title) return false;
-      return await updateTask(task);
+
+      const { insertedId } = await db.updateTask(task);
+      if (!insertedId) return false;
+
+      await handleNotifications(task, Number(insertedId));
+      return true;
     },
-    [updateTask]
+    [db.updateTask, handleNotifications]
   );
-
-  const fetchTodayTasks = useCallback(async (): Promise<Task[]> => {
-    return await getTodayTasks();
-  }, [getTodayTasks]);
-
-  const fetchTomorrowTasks = useCallback(async (): Promise<Task[]> => {
-    return await getTomorrowTasks();
-  }, [getTomorrowTasks]);
-
-  const updateCompleteTask = useCallback(
-    async (id: number): Promise<boolean> => {
-      return await toggleCompleteTask(id);
-    },
-    [toggleCompleteTask]
-  );
-
-  const fetchTaskDetails = useCallback(
-    async (id: number): Promise<Task | null> => {
-      return await getTasksDetails(id);
-    },
-    [getTasksDetails]
-  );
-
-  const deleteTask = useCallback(
-    async (id: number): Promise<boolean> => {
-      return await removeTask(id);
-    },
-    [removeTask]
-  );
-
-  const allTasks = useCallback(async (): Promise<Task[]> => {
-    return await getAllTasks();
-  }, [getAllTasks]);
 
   return {
     addTask,
-    deleteTask,
-    fetchTodayTasks,
-    fetchTomorrowTasks,
     editTask,
-    allTasks,
-    updateCompleteTask,
-    fetchTaskDetails,
+    deleteTask: db.removeTask,
+    fetchTodayTasks: db.getTodayTasks,
+    fetchTomorrowTasks: db.getTomorrowTasks,
+    updateCompleteTask: db.toggleCompleteTask,
+    fetchTaskDetails: db.getTasksDetails,
+    allTasks: db.getAllTasks,
   };
 }

@@ -13,8 +13,8 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { Slot, SplashScreen } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
-import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { Suspense, useEffect } from "react";
+import { ActivityIndicator, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import Toast from "react-native-toast-message";
@@ -22,7 +22,10 @@ import Toast from "react-native-toast-message";
 dayjs.locale("pt-br");
 
 SplashScreen.preventAutoHideAsync();
+
+
 export default function RootLayout() {
+
   const [fontsLoaded] = useFonts({
     Inter_300Light,
     Inter_400Regular,
@@ -32,7 +35,6 @@ export default function RootLayout() {
     Inter_800ExtraBold,
   });
 
-  // Esconde o splash assim que as fontes carregarem
   useEffect(() => {
     async function hideSplash() {
       if (fontsLoaded) {
@@ -46,11 +48,15 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0a0a0a" }}>
-      <SQLiteProvider databaseName="tasks.db" onInit={db}>
+      <Suspense fallback={<ActivityIndicator size={'large'}/>}>
         <StatusBar barStyle={"light-content"} />
+
+      <SQLiteProvider databaseName="tasks.db" onInit={db}>
+
         <Slot />
         <Toast config={toastConfig} visibilityTime={1500} />
       </SQLiteProvider>
+      </Suspense>
     </GestureHandlerRootView>
   );
 }

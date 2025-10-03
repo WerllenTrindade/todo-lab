@@ -40,7 +40,6 @@ export default function Home() {
           placeholder="Tarefa de pesquisa aqui"
           placeholderTextColor="#FFF"
         />
-
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
           <Text style={s.title}>Progresso</Text>
           <CardProgress />
