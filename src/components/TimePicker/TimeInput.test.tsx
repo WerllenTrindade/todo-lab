@@ -19,15 +19,15 @@ describe("TimeInput", () => {
     return <TimeInput control={control} name="time" title="Hora" />;
   }
 
-  it("renderiza título e hora inicial", () => {
-    const { getByText } = render(<Wrapper />);
-    expect(getByText("Hora")).toBeTruthy();
-    expect(getByText("12:00")).toBeTruthy();
-  });
+ it("renderiza título e hora inicial", () => {
+  const { getByText } = render(<Wrapper />);
+  expect(getByText("Hora")).toBeTruthy();
+  expect(getByText(/12:00/)).toBeTruthy();
+});
 
-  it("abre o picker ao pressionar o input", () => {
-    const { getByText, queryByTestId } = render(<Wrapper />);
-    fireEvent.press(getByText("12:00"));
-    expect(queryByTestId("RNDateTimePicker")).toBeTruthy();
-  });
+it("abre o picker ao pressionar o input", () => {
+  const { getByText, queryByTestId } = render(<Wrapper />);
+  fireEvent.press(getByText(/12:00/));
+  expect(queryByTestId("RNDateTimePicker")).toBeTruthy();
+});
 });

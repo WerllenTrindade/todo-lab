@@ -68,6 +68,7 @@
   "jest": {
     "preset": "jest-expo",
     "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
       "^@expo/vector-icons/(.*)$": "<rootDir>/src/__mocks__/vector-icons.ts"
     }
   }

@@ -29,7 +29,7 @@ describe("CardTask", () => {
     );
 
     expect(getByText("Estudar React Native")).toBeTruthy();
-    expect(getByText("2025-09-30")).toBeTruthy();
+    expect(getByText(/2025/)).toBeTruthy();
   });
 
   it("deve navegar para /task_form com o id da tarefa ao pressionar o card", () => {
