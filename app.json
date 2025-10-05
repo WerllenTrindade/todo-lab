@@ -21,7 +21,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.werllen.mylist",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "output": "static",
