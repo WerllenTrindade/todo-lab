@@ -31,6 +31,7 @@ async function scheduleSingleNotification({
   notifyAt: Date;
   message: string;
 }) {
+
   return await Notifications.scheduleNotificationAsync({
     content: {
       title,
@@ -40,7 +41,6 @@ async function scheduleSingleNotification({
       data: { taskId, priority },
     },
     trigger: {
-      type: "calendar",
       year: notifyAt.getFullYear(),
       month: notifyAt.getMonth() + 1,
       day: notifyAt.getDate(),
@@ -73,6 +73,7 @@ export async function scheduleTaskNotifications(
     }
   }
 
+  console.log('notificationIds ',notificationIds)
   if (notificationIds.length) {
     await updateTaskNotificationId(task.id, notificationIds);
   }

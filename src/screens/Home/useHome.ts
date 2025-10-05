@@ -16,13 +16,13 @@ export function useHome() {
     }, [])
   );
 
-  async function loadTasks() {
+  const loadTasks = useCallback(async () => {
     const today = await fetchTodayTasks();
     const tomorrow = await fetchTomorrowTasks();
 
     setTodayTasks(today);
     setTomorrowTasks(tomorrow);
-  }
+  }, [fetchTodayTasks, fetchTomorrowTasks]);
 
 
   const todayTasksCount = useMemo(() => todayTasks?.length, [todayTasks]);

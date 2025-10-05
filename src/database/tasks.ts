@@ -3,7 +3,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { CreateTask, Task } from "./model";
 
 export function useTasksDatabase() {
-  const database = useSQLiteContext();
+  const { prepareAsync, getAllAsync, getFirstSync } = useSQLiteContext();
 
   async function create(data: Omit<Task, "id">): Promise<CreateTask> {
     const { title, description, date, startTime, endTime, priority, alert } =
@@ -11,7 +11,7 @@ export function useTasksDatabase() {
 
     let statement;
     try {
-      statement = await database.prepareAsync(`
+      statement = await prepareAsync(`
         INSERT INTO tasks 
           (title, description, date, startTime, endTime, priority, alert, completed)
         VALUES 
@@ -40,24 +40,25 @@ export function useTasksDatabase() {
   async function getTodayTasks(): Promise<Task[]> {
     const today = dayjs().format("YYYY-MM-DD");
     const query = "SELECT * FROM tasks WHERE date LIKE ?";
-    return await database.getAllAsync<Task>(query, [`${today}%`]);
+    return await getAllAsync<Task>(query, [`${today}%`]);
   }
 
-  async function getTomorrowTasks(): Promise<Task[]> {
-    const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
-    const query = "SELECT * FROM tasks WHERE date LIKE ?";
-    return await database.getAllAsync<Task>(query, [`${tomorrow}%`]);
+  async function getTasksFromDayAfterTomorrow(): Promise<Task[]> {
+    const tomorrow = dayjs().add(1, "day").startOf("day").format("YYYY-MM-DD");
+  
+    const query = "SELECT * FROM tasks WHERE date >= ?";
+    return await getAllAsync<Task>(query, [tomorrow]);
   }
 
   async function getAllTasks(): Promise<Task[]> {
     const query = "SELECT * FROM tasks";
-    return await database.getAllAsync<Task>(query);
+    return await getAllAsync<Task>(query);
   }
 
   async function toggleCompleteTask(id: number): Promise<boolean> {
     let statement;
     try {
-      const task = await database.getFirstSync<Task>(
+      const task = await getFirstSync<Task>(
         "SELECT completed FROM tasks WHERE id = ?",
         [id]
       );
@@ -67,7 +68,7 @@ export function useTasksDatabase() {
       const newCompleted = task.completed ? 0 : 1;
 
       // Agora atualizamos
-      statement = await database.prepareAsync(`
+      statement = await prepareAsync(`
         UPDATE tasks
         SET completed = $completed
         WHERE id = $id
@@ -89,7 +90,7 @@ export function useTasksDatabase() {
 
   async function getTasksDetails(id: number): Promise<Task | null> {
     const query = `SELECT * FROM tasks WHERE id = ?`;
-    const tasks = await database.getAllAsync<Task>(query, [id]);
+    const tasks = await getAllAsync<Task>(query, [id]);
 
     return tasks.length > 0 ? tasks[0] : null;
   }
@@ -97,7 +98,7 @@ export function useTasksDatabase() {
   async function removeTask(id: number): Promise<boolean> {
     let statement;
     try {
-      statement = await database.prepareAsync(`
+      statement = await prepareAsync(`
         DELETE FROM tasks
         WHERE id = $id
       `);
@@ -128,7 +129,7 @@ export function useTasksDatabase() {
 
     let statement;
     try {
-      statement = await database.prepareAsync(`
+      statement = await prepareAsync(`
       UPDATE tasks
       SET 
         title = $title,
@@ -163,10 +164,12 @@ export function useTasksDatabase() {
     }
   }
 
-    async function updateTaskNotificationId(id: number, notificationId: string[]): Promise<boolean> {
+  async function updateTaskNotificationId(id: number, notificationId: string[]): Promise<boolean> {
     let statement;
+    
+    
     try {
-      statement = await database.prepareAsync(`
+      statement = await prepareAsync(`
         UPDATE tasks
         SET notificationId = $notificationId
         WHERE id = $id
@@ -186,13 +189,11 @@ export function useTasksDatabase() {
     }
   }
 
-
-
   return {
     create,
     getAllTasks,
     getTodayTasks,
-    getTomorrowTasks,
+    getTasksFromDayAfterTomorrow,
     toggleCompleteTask,
     getTasksDetails,
     removeTask,

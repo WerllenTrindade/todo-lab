@@ -43,7 +43,6 @@ export function useTaskForm({ id }: useTaskFormProps) {
     formState: { errors, isSubmitting },
   } = form;
 
-
   useFocusEffect(
     useCallback(() => {
       if (id) {
@@ -101,7 +100,6 @@ export function useTaskForm({ id }: useTaskFormProps) {
     }
   };
 
-
   const onRemove = async () => {
     try {
       Alert.alert("Excluir Task", "Tem certeza que deseja excluir esta task?", [
@@ -136,7 +134,6 @@ export function useTaskForm({ id }: useTaskFormProps) {
     }
   };
 
-
   return {
     control,
     handleSubmit,
@@ -145,7 +142,6 @@ export function useTaskForm({ id }: useTaskFormProps) {
     getValues,
     errors,
     loading,
-    watch,
     onRemove,
   };
 }

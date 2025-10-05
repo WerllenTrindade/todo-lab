@@ -1,4 +1,5 @@
 import { db } from "@/database/database";
+import theme from "@/theme";
 import { toastConfig } from "@/utils/toastConfig";
 import {
   Inter_300Light,
@@ -9,6 +10,7 @@ import {
   Inter_800ExtraBold,
   useFonts,
 } from "@expo-google-fonts/inter";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { Slot, SplashScreen } from "expo-router";
@@ -23,9 +25,7 @@ dayjs.locale("pt-br");
 
 SplashScreen.preventAutoHideAsync();
 
-
 export default function RootLayout() {
-
   const [fontsLoaded] = useFonts({
     Inter_300Light,
     Inter_400Regular,
@@ -47,16 +47,17 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0a0a0a" }}>
-      <Suspense fallback={<ActivityIndicator size={'large'}/>}>
-        <StatusBar barStyle={"light-content"} />
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <BottomSheetModalProvider>
+        <Suspense fallback={<ActivityIndicator size={"large"} />}>
+          <StatusBar barStyle={"light-content"} />
 
-      <SQLiteProvider databaseName="tasks.db" onInit={db}>
-
-        <Slot />
-        <Toast config={toastConfig} visibilityTime={1500} />
-      </SQLiteProvider>
-      </Suspense>
+          <SQLiteProvider databaseName="tasks.db" onInit={db}>
+            <Slot />
+            <Toast config={toastConfig} visibilityTime={1500} />
+          </SQLiteProvider>
+        </Suspense>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

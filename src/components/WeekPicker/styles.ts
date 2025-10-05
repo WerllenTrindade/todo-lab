@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
+    paddingTop: 15,
   },
   header: {
     flexDirection: "row",
@@ -19,19 +19,19 @@ export const styles = StyleSheet.create({
   dayContainer: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
     borderRadius: 8,
-    borderWidth: 2,
+    borderWidth: 1,
     alignItems: "center",
     gap: 3,
     marginTop: 10
   },
   dayText: {
     fontFamily: theme.fonts.interBold_700,
-    fontSize: 15,
+    fontSize: 14,
   },
   dateText: {
     fontFamily: theme.fonts.interBold_700,
-    fontSize: 15,
+    fontSize: 14,
   },
 });

@@ -6,7 +6,7 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000',
   blueGray: '#C9D1E5',
-  background: '#1C1C1C',
+  background: '#0a0a0a',
   darkGray: '#1E1E1E',
   darCard: '#1F1F1F',
   backgroundInput: '#181818',

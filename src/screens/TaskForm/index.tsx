@@ -17,11 +17,10 @@ interface TaskFormProps {
   id: number
 }
 
-export function TaskForm({id}: TaskFormProps) {
-  const { control, onRemove, handleSubmit, onSubmit, isSubmitting, loading, watch } = useTaskForm({id});
 
-  
- 
+export function TaskForm({id}: TaskFormProps) {
+  const { control, onRemove, handleSubmit, onSubmit, isSubmitting, loading } = useTaskForm({id});
+
   return (
     <SafeAreaView style={s.container}>
       <KeyboardAvoidingView
@@ -37,6 +36,7 @@ export function TaskForm({id}: TaskFormProps) {
           enableOnAndroid
           keyboardShouldPersistTaps="handled"
         >
+
           <WeekPicker control={control} name="date" />
 
           <View>

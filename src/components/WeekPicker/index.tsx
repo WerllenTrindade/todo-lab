@@ -1,10 +1,11 @@
 import theme from "@/theme";
 import Entypo from "@expo/vector-icons/Entypo";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { BottomSheetSelectHandles, CustomCalendar } from "../CustomCalendar";
 import { styles } from "./styles";
 
 interface WeekPickerProps<T extends FieldValues> {
@@ -16,6 +17,7 @@ export function WeekPicker<T extends FieldValues>({
   control,
   name,
 }: WeekPickerProps<T>) {
+    const bottomSheetRef = useRef<BottomSheetSelectHandles>(null);
   const [startDate, setStartDate] = useState(
     dayjs().startOf("week").add(1, "day")
   );
@@ -39,7 +41,6 @@ export function WeekPicker<T extends FieldValues>({
           return (
             <TouchableOpacity
               onPress={() => {
-                console.log(item)
                 if (item.isBefore(dayjs(), "day")) {
                   Toast.show({
                     type: "info",
@@ -84,9 +85,13 @@ export function WeekPicker<T extends FieldValues>({
                 <Entypo name="chevron-thin-left" size={20} color="#A78BFA" />
               </TouchableOpacity>
 
+              <TouchableOpacity
+                onPress={() => bottomSheetRef.current?.open()}
+            >
               <Text style={styles.headerText}>
                 {selectedDate.format("DD [de] MMMM")}
               </Text>
+            </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => setStartDate((prev) => prev.add(7, "day"))}
@@ -103,6 +108,8 @@ export function WeekPicker<T extends FieldValues>({
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ justifyContent: "center" }}
             />
+
+              <CustomCalendar ref={bottomSheetRef} />
           </View>
         );
       }}

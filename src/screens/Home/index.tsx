@@ -43,20 +43,21 @@ export default function Home() {
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
           <Text style={s.title}>Progresso</Text>
           <CardProgress />
-
-          <Text style={s.title}>A tarefa de hoje</Text>
+          
+          <Text style={s.title}>Tarefas de hoje</Text>
 
           <FlatList
-            data={todayTasks}
+          data={todayTasks}
             renderItem={renderItem}
             keyExtractor={(item) => String(item.id)}
             scrollEnabled={false}
+
             contentContainerStyle={{ gap: 10 }}
-          />
+            />
 
           {tomorrowTasks.length > 0 && (
             <>
-              <Text style={s.title}>Tarefa de amanhã</Text>
+              <Text style={s.title}>Tarefas futuras</Text>
               <FlatList
                 data={tomorrowTasks}
                 renderItem={renderItem}

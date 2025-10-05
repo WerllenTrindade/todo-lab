@@ -38,6 +38,7 @@ export function useTaskService() {
       const { insertedId } = await db.updateTask(task);
       if (!insertedId) return false;
 
+      
       await handleNotifications(task, Number(insertedId));
       return true;
     },
@@ -49,7 +50,7 @@ export function useTaskService() {
     editTask,
     deleteTask: db.removeTask,
     fetchTodayTasks: db.getTodayTasks,
-    fetchTomorrowTasks: db.getTomorrowTasks,
+    fetchTomorrowTasks: db.getTasksFromDayAfterTomorrow,
     updateCompleteTask: db.toggleCompleteTask,
     fetchTaskDetails: db.getTasksDetails,
     allTasks: db.getAllTasks,
