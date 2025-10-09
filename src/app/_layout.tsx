@@ -1,3 +1,4 @@
+import "@/config/sentry";
 import { db } from "@/database/database";
 import theme from "@/theme";
 import { toastConfig } from "@/utils/toastConfig";

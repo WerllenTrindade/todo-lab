@@ -27,31 +27,51 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-  "plugins": [
-  "expo-router",
-  [
-    "expo-splash-screen",
-    {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": {
-        "backgroundColor": "#000000"
-      }
-    }
-  ],
-  [
-    "expo-notifications",
-    {
-      "icon": "./assets/images/notification-icon.png",
-      "color": "#ffffff"
-    }
-  ],
-  "expo-font",
-  "expo-sqlite"
-]
-,
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#ffffff"
+        }
+      ],
+      "expo-font",
+      "expo-sqlite",
+      [
+        "@sentry/react-native/expo",
+            {
+          "url": "https://sentry.io/",
+          "project": "my-list",
+          "organization": "werllen",
+          "experimental_android": {
+            "enableAndroidGradlePlugin": true,
+            "experimental_android": {
+            "enableAndroidGradlePlugin": true,
+            "autoUploadProguardMapping": true,
+            "includeProguardMapping": true,
+            "dexguardEnabled": true,
+            "uploadNativeSymbols": true,
+            "autoUploadNativeSymbols": true,
+            "includeNativeSources": true,
+            "includeSourceContext": true
+          }
+          }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
