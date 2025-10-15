@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "391482146027",
+    "project_id": "taskmaster-11ef2",
+    "storage_bucket": "taskmaster-11ef2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391482146027:android:20b2164a2c3044f2bed2ae",
+        "android_client_info": {
+          "package_name": "com.werllen.mylist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391482146027-0ufnihljlhfk100me1t2quo014n5c5s2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.werllen.mylist",
+            "certificate_hash": "b59ba866df00b8b09d2e274d2ee1d406cce75c0e"
+          }
+        },
+        {
+          "client_id": "391482146027-s9c19vf71n91k27hl3b0itqv2jqqnrli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcb5X4Vxybglb1OgGALnpoBykD59zFZ0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391482146027-s9c19vf71n91k27hl3b0itqv2jqqnrli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
